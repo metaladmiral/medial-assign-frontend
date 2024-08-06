@@ -1,5 +1,6 @@
 import useSWR from "swr";
 import Navbar from "../components/navbar";
+import { Link } from "react-router-dom";
 
 async function getPosts() {
   const backend_server_url = import.meta.env.VITE_BACKEND_SERVER_URL;
@@ -15,8 +16,12 @@ function PostsList() {
     data: posts,
     error,
     isValidating,
-  } = useSWR("https://restcountries.com/v2/all", getPosts);
+  } = useSWR("get-posts-list", async () => {
+    return await getPosts();
+  });
 
+  const backend_server_assets_url = import.meta.env
+    .VITE_BACKEND_SERVER_ASSETS_URL;
   if (error) return <div className="failed">failed to load</div>;
   if (isValidating) return <div className="Loading">Loading...</div>;
 
@@ -47,12 +52,12 @@ function PostsList() {
                 <figure>
                   {post.img ? (
                     <img
-                      src={`http://localhost:3000/public/uploads/${post.img}`}
+                      src={`${backend_server_assets_url}uploads/${post.img}`}
                       alt="Shoes"
                     />
                   ) : (
                     <img
-                      src="https://thekarostartup.com/wp-content/uploads/2024/05/Feature-iby-naina11-1024x576.webp"
+                      src="https://images.unsplash.com/photo-1617957689187-997a52cd5e76?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHB1cnBsZXxlbnwwfHwwfHx8MA%3D%3D"
                       alt="Shoes"
                     />
                   )}
@@ -61,7 +66,9 @@ function PostsList() {
                   <h2 className="card-title">{post.title}</h2>
                   <p>{post.content}</p>
                   <div className="card-actions justify-end">
-                    <button className="btn btn-primary">See Details</button>
+                    <Link to={`/post/${post.postid}`}>
+                      <button className="btn btn-primary">See Details</button>
+                    </Link>
                   </div>
                 </div>
               </div>

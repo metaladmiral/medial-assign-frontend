@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route index element={<AddPost />} />
         <Route path="add-post" element={<AddPost />} />
-        <Route path="post-details" element={<PostDetails />} />
+        <Route path="post/:postid" element={<PostDetails />} />
         <Route path="posts-list" element={<PostsList />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
