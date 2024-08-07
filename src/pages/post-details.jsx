@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
-
+import Helmet from "react-helmet";
 import Navbar from "../components/navbar";
 
 function showModal() {
@@ -34,16 +34,20 @@ function PostDetails() {
   const backend_server_assets_url = import.meta.env
     .VITE_BACKEND_SERVER_ASSETS_URL;
 
+  const ogImage = `${backend_server_assets_url}og-images/${post.postid}.jpg`;
+
   return (
     <>
+      <Helmet>
+        <meta property="og:title" content="Your Open Graph Title" />
+        <meta property="og:description" content="Your Open Graph Description" />
+        <meta property="og:image" content={ogImage} />
+      </Helmet>
       <dialog id="my_modal_4" className="modal">
         <div className="modal-box w-11/12 max-w-5xl">
           <h3 className="font-bold text-lg">OG Image</h3>
           <p className="py-4">
-            <img
-              src={`${backend_server_assets_url}og-images/${post.postid}.jpg`}
-              alt=""
-            />
+            <img src={ogImage} alt="" />
           </p>
           <div className="modal-action">
             <form method="dialog">
